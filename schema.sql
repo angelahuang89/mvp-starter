@@ -4,7 +4,7 @@ CREATE DATABASE test;
 
 USE test;
 
-CREATE TABLE items (
+CREATE TABLE images (
   id int NOT NULL AUTO_INCREMENT,
   quantity integer NOT NULL,
   description varchar(50) NOT NULL,

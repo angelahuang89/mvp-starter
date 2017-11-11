@@ -13,7 +13,8 @@ db.once('open', function() {
 
 var itemSchema = mongoose.Schema({
   quantity: Number,
-  description: String
+  description: String,
+  image: String
 });
 
 var Item = mongoose.model('Item', itemSchema);
@@ -28,4 +29,18 @@ var selectAll = function(callback) {
   });
 };
 
-module.exports.selectAll = selectAll;
+var insert = function(item, callback) {
+  item.save((error, data) => {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, data);
+    }
+  })
+  
+}
+
+// module.exports.selectAll = selectAll;
+// module.exports.insert = insert;
+// module.exports.Item = Item;
+module.exports = { Item, selectAll, insert };

@@ -15,7 +15,7 @@ let findPicturesBySearch = (searchTerm, callback) => {
     if (error) {
       callback(error, null);
     } else {
-      console.log('this is the', body);
+      // console.log('this is the', body);
       var data = JSON.parse(body);
       callback(null, data);
     }

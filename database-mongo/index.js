@@ -12,9 +12,14 @@ db.once('open', function() {
 });
 
 var itemSchema = mongoose.Schema({
-  quantity: Number,
-  description: String,
-  image: String
+  // quantity: Number,
+  query: String,
+  imageId: { type: String, unique: true },
+  imageDescription: String,
+  image: String,
+  quoteId: String,
+  quote: String,
+  likes: Number
 });
 
 var Item = mongoose.model('Item', itemSchema);

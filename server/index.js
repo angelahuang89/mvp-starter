@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 // var items = require('../database-mysql');
 var items = require('../database-mongo');
 var unsplash = require('../helpers/unsplash');
+var reddit = require('../helpers/reddit');
 
 var app = express();
 
@@ -26,33 +27,49 @@ app.get('/items', function (req, res) {
 });
 
 app.post('/items', function(req, res) {
-  // query for quotes/images
-  console.log(req.body.query)
-  unsplash.findPicturesBySearch(req.body.query, (error, results) => {
+  // search for images
+  unsplash.findPicturesBySearch(req.body.query, (error, imageResults) => {
     if (error) {
-      console.log('unsplash post', error);
-    } else {
-      // after successfully getting results
+      console.log('unsplash post error', error);
+    } else {  
+      // console.log('unsplash post success', imageResults);
+      let imagesArray = imageResults.results;
+      // after successfully getting image results
+      // search for quotes
       // insert them into database
-      console.log('unsplash post', results);
-      let resultsArray = results.results;
-      resultsArray.forEach((result, index) => {
-        let mongoDoc = {
-          description: result.description,
-          image: result.urls.raw
-        }
-        let mongoItem = new items.Item(mongoDoc);
-        items.insert(mongoItem, (error, data) => {
-          if (error) {
-            console.log('save', error);
-            res.end();
-          } else {
-            if (index === resultsArray.length) {
-              res.end();
+      reddit.findQuotesBySearch(req.body.query, (error, quoteResults) => {
+        if (error) {
+          console.log('reddit post', error);
+        } else {
+          let quotesArray = quoteResults.data.children;
+          for (let i = 0; i < 10; i++) {
+            // for (let j = 0; j < 10; j++) {
+            let quote = quotesArray[i].data.title;
+            quote = quote.replace(/\'|\"|-|~|—/g, ' ');
+            let mongoDoc = {
+              query: req.body.query,
+              imageId: imagesArray[i].id,
+              imageDescription: imagesArray[i].description,
+              image: imagesArray[i].urls.raw,
+              quoteId: quotesArray[i].created,
+              quote: quote,
+              likes: 0
             }
+            let mongoItem = new items.Item(mongoDoc);
+            items.insert(mongoItem, (error, data) => {
+              if (error) {
+                console.log('save', error);
+                res.end();
+              } else {
+                if (i === imagesArray.length) {
+                  res.end();
+                }
+              }
+            });
+            // }
           }
-        }) 
-      })
+        }
+      });
     }
   });
 });

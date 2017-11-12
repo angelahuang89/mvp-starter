@@ -17,8 +17,8 @@ app.use(bodyParser.json());
 // app.use(express.static(__dirname + '/../node_modules'));
 
 app.get('/items', function (req, res) {
-  items.selectAll(function(err, data) {
-    if(err) {
+  items.selectAll(function(error, data) {
+    if(error) {
       res.sendStatus(500);
     } else {
       res.json(data);
@@ -73,6 +73,20 @@ app.post('/items', function(req, res) {
     }
   });
 });
+
+app.post('/changeLike', function(req, res) {
+  let itemId = req.body.itemId;
+  let likes = req.body.likes;
+  let action = req.body.actionToTake;
+  items.changeLike(itemId, action, (error, results) => {
+    if (error) {
+      console.log('update', error);
+    } else {
+      console.log('update', results);
+      res.end();
+    }
+  })
+})
 
 app.listen(3000, function() {
   console.log('listening on port 3000!');

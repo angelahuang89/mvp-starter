@@ -13,28 +13,34 @@ class App extends React.Component {
 
     this.searchForData = this.searchForData.bind(this);
     this.showImagesAndQuotes = this.showImagesAndQuotes.bind(this);
+    this.changeLike = this.changeLike.bind(this);
     this.addLike = this.addLike.bind(this);
     this.removeLike = this.removeLike.bind(this);
   }
   
-  addLike (key) {
-    console.log('+1', key);
+  changeLike (key, likes, action) {
     $.ajax({
-      url: '/items',
+      url: '/changeLike',
       method: 'GET',
-      data: JSON.stringify({itemId: key, actionToTake: 'addLike'}),
+      data: JSON.stringify({ itemId: key, likes: likes, actionToTake: action }),
       contentType: 'application/json',
       success: (data) => {
         console.log('added like', data);
-      }
+      },
       error: (error) => {
         console.log('add error', error);
       }
     })
   }
   
+  addLike (key, likes) {
+    console.log('+1', key, likes);
+    changeLike(key, likes, 'addLike');
+  }
+  
   removeLike (key) {
-    console.log('-1', key);
+    console.log('-1', key, likes);
+    changeLike(key, likes, 'removeLike');
   }
   
   searchForData (searchTerm) {

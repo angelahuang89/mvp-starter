@@ -45,7 +45,31 @@ var insert = function(item, callback) {
   
 }
 
+var changeLike = function(itemId, likes, action, callback) {
+  let updatedLikes = likes;
+  if (action === 'addLike') {
+    updatedLikes++;
+    Item.update({ _id: itemId }, { likes: updatedLikes }, (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, data);
+      }
+    });
+  }
+  if (action === 'removeLike') {
+    updatedLikes--;
+    Item.update({ _id: itemId }, { likes: updatedLikes }, (error, results) => {
+      if (error) {
+        callback(error, null);
+      } else {
+        callback(null, data);
+      }
+    });
+  }
+}
+
 // module.exports.selectAll = selectAll;
 // module.exports.insert = insert;
 // module.exports.Item = Item;
-module.exports = { Item, selectAll, insert };
+module.exports = { Item, selectAll, insert, changeLike };

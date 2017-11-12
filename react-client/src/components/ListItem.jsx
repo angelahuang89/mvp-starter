@@ -20,9 +20,9 @@ class ListItem extends React.Component {
     return (<div>
       <img src={ this.props.item.image } alt={ this.props.item.description } style={{ width: 300, height: 200}} />
       <p>{ this.props.item.quote } </p>
-      <button onClick={() => this.props.increaseLike(this.props.id)}>Like</button>
+      <button onClick={() => this.props.increaseLike(this.props.id, this.props.item.likes)}>Like</button>
       <span> { this.props.item.likes } </span>
-      <button onClick={() => this.decreaseLike(this.props.id)}>Unlike</button>
+      <button onClick={() => this.decreaseLike(this.props.id, this.props.item.likes)}>Unlike</button>
     </div>)
   }
 }

@@ -3,10 +3,9 @@ const request = require('request');
 let findPicturesBySearch = (searchTerm, callback) => {
   
   let options = {
-    // 'url': `https://www.reddit.com/r/${searchTerm}.json?count=5`,
     'url': `https://api.unsplash.com/search/photos?query=${searchTerm}`,
     'headers': {
-      'Authorization': 'Client-ID',
+      'Authorization': 'Client-ID ed9b35a79f405d20f7bc0fd801d8e49a5c50cc32d8262403970a481f6de29397',
       'User-Agent': 'request'
     }
   }

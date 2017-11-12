@@ -26,8 +26,7 @@ class Search extends React.Component {
       </label>
         <button onClick={this.startSearch} >Search</button>
     </div>)
-  }
-  
+  } 
 }
 
 export default Search;

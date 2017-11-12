@@ -26,6 +26,17 @@ app.get('/items', function (req, res) {
   });
 });
 
+app.post('/filter', function(req, res) {
+  console.log('query!', req.body);
+  items.selectBySearch(req.body.query, (error, results) => {
+    if (error) {
+      res.sendStatus(404);
+    } else {
+      res.json(results);
+    }
+  });
+})
+
 app.post('/items', function(req, res) {
   // search for images
   unsplash.findPicturesBySearch(req.body.query, (error, imageResults) => {
@@ -78,7 +89,7 @@ app.post('/changeLike', function(req, res) {
   let itemId = req.body.itemId;
   let likes = req.body.likes;
   let action = req.body.actionToTake;
-  items.changeLike(itemId, action, (error, results) => {
+  items.changeLike(itemId, likes, action, (error, results) => {
     if (error) {
       console.log('update', error);
     } else {

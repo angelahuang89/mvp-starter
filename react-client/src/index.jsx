@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import List from './components/List.jsx';
 import Search from './components/Search.jsx';
+import Filter from './components/Filter.jsx';
 
 class App extends React.Component {
   constructor(props) {
@@ -16,6 +17,8 @@ class App extends React.Component {
     this.changeLike = this.changeLike.bind(this);
     this.addLike = this.addLike.bind(this);
     this.removeLike = this.removeLike.bind(this);
+    this.onFilter = this.onFilter.bind(this);
+    // this.showRandom = this.showRandom.bind(this);
   }
   
   changeLike (key, likes, action) {
@@ -26,6 +29,7 @@ class App extends React.Component {
       contentType: 'application/json',
       success: (data) => {
         console.log('added like', data);
+        this.showImagesAndQuotes();
       },
       error: (error) => {
         console.log('add error', error);
@@ -71,11 +75,36 @@ class App extends React.Component {
           items: data
         })
       },
-      error: (err) => {
-        console.log('err', err);
+      error: (error) => {
+        console.log('err', error);
       }
     });  
   }
+  
+  onFilter (searchTerm) {
+    console.log(searchTerm, 'filtered!');
+    $.ajax({
+      url: '/filter',
+      method: 'POST',
+      data: JSON.stringify({query: searchTerm}),
+      contentType: 'application/json',
+      success: (data) => {
+        console.log(data.length);
+        this.setState({
+          items: data
+        })
+      },
+      error: (error) => {
+        console.log('error!', error);
+      }
+    });  
+  }
+  
+  // showRandom () {
+  //   var randomNum = Math.floor(Math.random() * this.state.items.length);
+  //   this.setState({items: this.state.items[randomNum]});
+  // }
+  // <button onClick={this.showRandom} >Random!</button>
 
   componentDidMount() {
     this.showImagesAndQuotes();
@@ -84,8 +113,9 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Art and Quote List</h1>
-      <List items={this.state.items} addLike={this.addLike} removeLike={this.removeLike} />
       <Search handleSearch={this.searchForData}/>
+      <Filter onFilter = {this.onFilter}/>
+      <List items={this.state.items} addLike={this.addLike} removeLike={this.removeLike} />
     </div>)
   }
 }

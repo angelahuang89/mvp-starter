@@ -25,14 +25,24 @@ var itemSchema = mongoose.Schema({
 var Item = mongoose.model('Item', itemSchema);
 
 var selectAll = function(callback) {
-  Item.find({}, function(err, items) {
-    if(err) {
-      callback(err, null);
+  Item.find({}, function(error, items) {
+    if(error) {
+      callback(error, null);
     } else {
       callback(null, items);
     }
   });
 };
+
+var selectBySearch = function(searchTerm, callback) {
+  Item.find({ query: searchTerm }, function(error, items) {
+    if (error) {
+      callback(error, null);
+    } else {
+      callback(null, items);
+    }
+  })
+}
 
 var insert = function(item, callback) {
   item.save((error, data) => {
@@ -53,7 +63,7 @@ var changeLike = function(itemId, likes, action, callback) {
       if (error) {
         callback(error, null);
       } else {
-        callback(null, data);
+        callback(null, results);
       }
     });
   }
@@ -63,7 +73,7 @@ var changeLike = function(itemId, likes, action, callback) {
       if (error) {
         callback(error, null);
       } else {
-        callback(null, data);
+        callback(null, results);
       }
     });
   }
@@ -72,4 +82,4 @@ var changeLike = function(itemId, likes, action, callback) {
 // module.exports.selectAll = selectAll;
 // module.exports.insert = insert;
 // module.exports.Item = Item;
-module.exports = { Item, selectAll, insert, changeLike };
+module.exports = { Item, selectAll, insert, changeLike, selectBySearch };

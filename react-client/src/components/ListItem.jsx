@@ -22,7 +22,7 @@ class ListItem extends React.Component {
       <p>{ this.props.item.quote } </p>
       <button onClick={() => this.props.increaseLike(this.props.id, this.props.item.likes)}>Like</button>
       <span> { this.props.item.likes } </span>
-      <button onClick={() => this.decreaseLike(this.props.id, this.props.item.likes)}>Unlike</button>
+      <button onClick={() => this.props.decreaseLike(this.props.id, this.props.item.likes)}>Unlike</button>
     </div>)
   }
 }

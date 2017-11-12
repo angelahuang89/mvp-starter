@@ -21,7 +21,7 @@ class App extends React.Component {
   changeLike (key, likes, action) {
     $.ajax({
       url: '/changeLike',
-      method: 'GET',
+      method: 'POST',
       data: JSON.stringify({ itemId: key, likes: likes, actionToTake: action }),
       contentType: 'application/json',
       success: (data) => {
@@ -30,17 +30,17 @@ class App extends React.Component {
       error: (error) => {
         console.log('add error', error);
       }
-    })
+    });
   }
   
   addLike (key, likes) {
     console.log('+1', key, likes);
-    changeLike(key, likes, 'addLike');
+    this.changeLike(key, likes, 'addLike');
   }
   
-  removeLike (key) {
+  removeLike (key, likes) {
     console.log('-1', key, likes);
-    changeLike(key, likes, 'removeLike');
+    this.changeLike(key, likes, 'removeLike');
   }
   
   searchForData (searchTerm) {

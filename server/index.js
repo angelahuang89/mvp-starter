@@ -27,7 +27,6 @@ app.get('/items', function (req, res) {
 });
 
 app.post('/filter', function(req, res) {
-  console.log('query!', req.body);
   items.selectBySearch(req.body.query, (error, results) => {
     if (error) {
       res.sendStatus(404);
@@ -39,9 +38,11 @@ app.post('/filter', function(req, res) {
 
 app.post('/items', function(req, res) {
   // search for images
+    console.log(req.body.query)
   unsplash.findPicturesBySearch(req.body.query, (error, imageResults) => {
     if (error) {
       console.log('unsplash post error', error);
+      res.status(400).end('unsplash post error');
     } else {  
       // console.log('unsplash post success', imageResults);
       let imagesArray = imageResults.results;
@@ -51,9 +52,10 @@ app.post('/items', function(req, res) {
       reddit.findQuotesBySearch(req.body.query, (error, quoteResults) => {
         if (error) {
           console.log('reddit post', error);
+          res.status(400).end('reddit post error');
         } else {
           let quotesArray = quoteResults.data.children;
-          for (let i = 0; i < 10; i++) {
+          for (let i = 0; i < 1; i++) {
             // for (let j = 0; j < 10; j++) {
             let quote = quotesArray[i].data.title;
             quote = quote.replace(/\'|\"|-|~|—/g, ' ');
@@ -70,9 +72,9 @@ app.post('/items', function(req, res) {
             items.insert(mongoItem, (error, data) => {
               if (error) {
                 console.log('save', error);
-                res.end();
+                res.status(400).end('mongo save error');
               } else {
-                if (i === imagesArray.length) {
+                if (i === 0) {
                   res.end();
                 }
               }

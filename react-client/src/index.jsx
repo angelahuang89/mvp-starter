@@ -48,9 +48,7 @@ class App extends React.Component {
   }
   
   searchForData (searchTerm) {
-    console.log(searchTerm, 'searched!');
-    // handle user input
-    // call post function
+    console.log(searchTerm);
     $.ajax({
       url: '/items',
       method: 'POST',
@@ -61,6 +59,7 @@ class App extends React.Component {
         this.showImagesAndQuotes();
       },
       error: (error) => {
+        console.log(searchTerm);
         console.log('post error', error);
       }
     });
@@ -112,9 +111,10 @@ class App extends React.Component {
 
   render () {
     return (<div>
-      <h1>Art and Quote List</h1>
+      <h1>Art and Quotes</h1>
       <Search handleSearch={this.searchForData}/>
       <Filter onFilter = {this.onFilter}/>
+      <button onClick={this.showImagesAndQuotes}> show all </button>
       <List items={this.state.items} addLike={this.addLike} removeLike={this.removeLike} />
     </div>)
   }

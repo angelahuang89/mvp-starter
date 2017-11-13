@@ -17,6 +17,9 @@ class Search extends React.Component {
   
   startSearch () {
     this.props.handleSearch(this.state.value);
+    this.setState({
+      value: ''
+    })
   }
   
   render () {
@@ -24,7 +27,7 @@ class Search extends React.Component {
       <label>
         <input value={this.state.value} onChange={this.handleChange} />
       </label>
-        <button onClick={this.startSearch} >Search</button>
+        <button onClick={this.startSearch} >search</button>
     </div>)
   } 
 }

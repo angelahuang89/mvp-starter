@@ -16,15 +16,18 @@ class Filter extends React.Component {
   }
 
   startFilter () {
-    this.props.onFilter(this.state.value);
+    this.props.onFilter(this.state.filterValue);
+    this.setState({
+      filterValue: ''
+    })
   }
   
   render() {
     return (<div>
       <label>
-        <input value={this.state.value} onChange={this.handleFilter} />
+        <input value={this.state.filterValue} onChange={this.handleFilter} />
       </label>
-        <button onClick={this.startFilter} >Filter</button>
+        <button onClick={this.startFilter} >filter</button>
     </div>)
   }
 }

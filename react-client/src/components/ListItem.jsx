@@ -21,7 +21,7 @@ class ListItem extends React.Component {
   
   render () {
     return (<div>
-      <img src={ this.props.item.image } alt={ this.props.item.description } style={{ width: 300, height: 200}} />
+      <img src={ this.props.item.image } alt={ this.props.item.description } style={{ width: 350, height: 250}} />
       <p>{ this.props.item.quote } </p>
       <button onClick={() => {
         this.props.decreaseLike(this.props.id, this.props.item.likes);

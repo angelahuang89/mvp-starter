@@ -111,7 +111,7 @@ class App extends React.Component {
 
   render () {
     return (<div>
-      <h1>Art and Quotes</h1>
+      <h1 id="header">Art and Quotes</h1>
       <Search handleSearch={this.searchForData}/>
       <Filter onFilter = {this.onFilter}/>
       <button onClick={this.showImagesAndQuotes}> show all </button>
